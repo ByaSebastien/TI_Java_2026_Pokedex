@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import "styles/colors";
+
+@font-face {
+  font-family: PokemonSolid;
+  src: url('/assets/fonts/PokemonSolid.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: PokemonHollow;
+  src: url('/assets/fonts/PokemonHollow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: PokemonSolid, sans-serif;
+  color: $secondary;
+  -webkit-text-stroke: 5px $tertiary;
+  paint-order: stroke fill;
+}

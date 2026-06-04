@@ -1,0 +1,23 @@
+@import "../styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  header {
+    background-color: $primary;
+    text-align: center;
+    padding-bottom: 0.8rem;
+  }
+
+  main{
+    flex: 1;
+    padding: 1rem;
+  }
+
+  footer {
+    text-align: center;
+    background-color: $primary;
+  }
+}

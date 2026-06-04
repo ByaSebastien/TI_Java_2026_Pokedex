@@ -1,0 +1,105 @@
+<section class="pokedex-view">
+  <section class="left-panel" aria-label="Liste des pokemons">
+    <div class="list-nav" aria-label="Navigation de la liste">
+      <button
+        class="nav-arrow"
+        type="button"
+        (click)="previous()"
+        [disabled]="!pokeResult()?.previous"
+        aria-label="Page precedente"
+      >
+        <span aria-hidden="true">&larr;</span>
+      </button>
+
+      <h2>Pokemon</h2>
+
+      <button
+        class="nav-arrow"
+        type="button"
+        (click)="next()"
+        [disabled]="!pokeResult()?.next"
+        aria-label="Page suivante"
+      >
+        <span aria-hidden="true">&rarr;</span>
+      </button>
+    </div>
+
+    <ul class="poke-list" role="list">
+      @for (p of pokeResult()?.results; track p.name) {
+        <li class="poke-card" tabindex="0" (click)="getPokemon(p.url)">
+          <img [src]="p.sprite" [alt]="p.name" width="100" height="100" loading="lazy" decoding="async">
+          <p>{{ p.name }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <div [class]="detailPanelClass()">
+    @if (selectedPokemon(); as pokemon) {
+      <div class="poke-detail__content">
+
+        <header class="poke-detail__header">
+          <h2 class="poke-detail__name">{{ pokemon.name }}</h2>
+          <div class="poke-detail__types" role="list" aria-label="Types du Pokémon">
+            @for (type of pokemon.types; track type) {
+              <span class="poke-detail__type-badge type--{{ typeClass(type) }}" role="listitem">{{ type }}</span>
+            }
+          </div>
+        </header>
+
+        <div class="poke-detail__sprite-wrapper" aria-hidden="true">
+          <div class="poke-detail__sprite-glow"></div>
+          <img
+            class="poke-detail__sprite"
+            [src]="pokemon.sprite"
+            [alt]="pokemon.name"
+            width="220"
+            height="220"
+            loading="eager"
+            decoding="async"
+          >
+        </div>
+
+        <p class="poke-detail__description">{{ pokemon.description }}</p>
+
+        <section class="poke-detail__stats" aria-label="Statistiques de base">
+          <h3 class="poke-detail__stats-title">Statistiques</h3>
+          <dl class="poke-detail__stat-list">
+            @for (stat of statsWithLabels(); track stat.label) {
+              <div class="poke-detail__stat-row">
+                <dt class="poke-detail__stat-label">{{ stat.label }}</dt>
+                <dd class="poke-detail__stat-value">{{ stat.value }}</dd>
+                <div
+                  class="poke-detail__stat-bar"
+                  role="progressbar"
+                  [attr.aria-valuenow]="stat.value"
+                  [attr.aria-valuemin]="0"
+                  [attr.aria-valuemax]="255"
+                  [attr.aria-label]="stat.label + ': ' + stat.value + '/255'"
+                >
+                  <div
+                    class="poke-detail__stat-fill stat-fill--{{ stat.color }}"
+                    [style.width.%]="stat.percent"
+                  ></div>
+                </div>
+              </div>
+            }
+          </dl>
+        </section>
+
+      </div>
+    } @else {
+      <div class="poke-detail__empty" aria-live="polite">
+        <div class="poke-detail__empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="4"/>
+            <line x1="2" y1="50" x2="98" y2="50" stroke="currentColor" stroke-width="4"/>
+            <circle cx="50" cy="50" r="12" fill="white" stroke="currentColor" stroke-width="4"/>
+            <circle cx="50" cy="50" r="5" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="poke-detail__empty-text">Sélectionne un Pokémon !</p>
+      </div>
+    }
+  </div>
+</section>
